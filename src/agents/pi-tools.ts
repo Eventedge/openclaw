@@ -19,6 +19,7 @@ import { resolveImageSanitizationLimits } from "./image-sanitization.js";
 import type { ModelAuthMode } from "./model-auth.js";
 import { createOpenClawTools } from "./openclaw-tools.js";
 import { wrapToolWithAbortSignal } from "./pi-tools.abort.js";
+import { wrapToolWithAgentShieldTrust } from "./pi-tools.agentshield-trust.js";
 import { wrapToolWithAgentShieldApproval } from "./pi-tools.agentshield.js";
 import { wrapToolWithBeforeToolCallHook } from "./pi-tools.before-tool-call.js";
 import {
@@ -554,7 +555,13 @@ export function createOpenClawCodingTools(options?: {
       modelId: options?.modelId,
     }),
   );
-  const withAgentShield = normalized.map((tool) =>
+  const withTrust = normalized.map((tool) =>
+    wrapToolWithAgentShieldTrust(tool, {
+      agentId,
+      sessionKey: options?.sessionKey,
+    }),
+  );
+  const withAgentShield = withTrust.map((tool) =>
     wrapToolWithAgentShieldApproval(tool, {
       agentId,
       sessionKey: options?.sessionKey,
