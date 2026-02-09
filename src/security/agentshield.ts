@@ -11,7 +11,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
 // ── Types ────────────────────────────────────────────────────────
@@ -93,28 +93,12 @@ export function ensureKeys(cfg: AgentShieldConfig): boolean {
 // ── Evaluation ───────────────────────────────────────────────────
 
 /**
- * Build a safe args summary string (redacted) from tool params.
- * Never includes raw secret values — only key names and truncated values.
- */
-function buildArgsSummary(toolName: string, params: Record<string, unknown>): string {
-  const keys = Object.keys(params).sort();
-  const parts = keys.map((k) => {
-    const v = params[k];
-    if (typeof v === "string" && v.length > 80) {
-      return `${k}=${v.slice(0, 77)}...`;
-    }
-    return `${k}=${String(v)}`;
-  });
-  return `${toolName}(${parts.join(", ")})`;
-}
-
-/**
  * Evaluate a tool call against AgentShield policy.
  *
  * Shells out to the Python middleware.  Returns the verdict or null if
  * AgentShield is not enabled / keys are missing / middleware fails.
  */
-export async function evaluateToolCall(
+export function evaluateToolCall(
   toolName: string,
   params: Record<string, unknown>,
   cfg?: AgentShieldConfig,

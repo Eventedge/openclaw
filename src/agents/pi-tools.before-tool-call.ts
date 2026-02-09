@@ -1,8 +1,12 @@
 import type { AnyAgentTool } from "./tools/common.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
+import {
+  evaluateToolCall,
+  formatBlockMessage,
+  loadAgentShieldConfig,
+} from "../security/agentshield.js";
 import { normalizeToolName } from "./tool-policy.js";
-import { evaluateToolCall, formatBlockMessage, loadAgentShieldConfig } from "../security/agentshield.js";
 
 type HookContext = {
   agentId?: string;
@@ -81,7 +85,7 @@ export function wrapToolWithBeforeToolCallHook(
       const shieldCfg = loadAgentShieldConfig();
       if (shieldCfg.enabled) {
         const normalizedParams = isPlainObject(params) ? params : {};
-        const shieldResult = await evaluateToolCall(toolName, normalizedParams, {
+        const shieldResult = evaluateToolCall(toolName, normalizedParams, {
           ...shieldCfg,
           agentId: ctx?.agentId || shieldCfg.agentId,
         });

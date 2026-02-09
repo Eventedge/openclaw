@@ -40,31 +40,31 @@ That's it. OpenClaw will now evaluate every tool call against the
 
 All settings are environment variables with sensible defaults:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `AGENTSHIELD_ENABLED` | `0` | Set to `1` to enable enforcement |
-| `AGENTSHIELD_POLICY_PROFILE` | `normal` | Policy profile: `normal`, `strict`, or `experimental` |
-| `AGENTSHIELD_DATA_DIR` | `data/agentshield` | Base directory for all AgentShield data |
-| `AGENTSHIELD_KEY_PATH` | `<data_dir>/keys/agentshield_ed25519.key` | Path to signer private key |
-| `AGENTSHIELD_PUBKEY_PATH` | `<data_dir>/keys/agentshield_ed25519.pub` | Path to signer public key |
-| `AGENTSHIELD_RECEIPTS_DIR` | `<data_dir>/receipts` | Decision receipts output |
-| `AGENTSHIELD_INCIDENTS_ROOT` | `<data_dir>/incidents` | Incident store root |
-| `AGENTSHIELD_APPROVALS_DIR` | `<data_dir>/approvals` | Approval request/grant files |
-| `AGENTSHIELD_PYTHON` | `python3` | Python binary for middleware |
-| `AGENTSHIELD_MIDDLEWARE_PATH` | `security/agentshield_middleware.py` | Path to middleware script |
-| `AGENTSHIELD_AGENT_ID` | `openclaw-agent` | Agent ID for receipts |
-| `AGENTSHIELD_PUBLISHER_ID` | `openclaw` | Publisher ID for receipts |
-| `AGENTSHIELD_VERSION` | `0.0.0` | Agent version for receipts |
+| Variable                      | Default                                   | Description                                           |
+| ----------------------------- | ----------------------------------------- | ----------------------------------------------------- |
+| `AGENTSHIELD_ENABLED`         | `0`                                       | Set to `1` to enable enforcement                      |
+| `AGENTSHIELD_POLICY_PROFILE`  | `normal`                                  | Policy profile: `normal`, `strict`, or `experimental` |
+| `AGENTSHIELD_DATA_DIR`        | `data/agentshield`                        | Base directory for all AgentShield data               |
+| `AGENTSHIELD_KEY_PATH`        | `<data_dir>/keys/agentshield_ed25519.key` | Path to signer private key                            |
+| `AGENTSHIELD_PUBKEY_PATH`     | `<data_dir>/keys/agentshield_ed25519.pub` | Path to signer public key                             |
+| `AGENTSHIELD_RECEIPTS_DIR`    | `<data_dir>/receipts`                     | Decision receipts output                              |
+| `AGENTSHIELD_INCIDENTS_ROOT`  | `<data_dir>/incidents`                    | Incident store root                                   |
+| `AGENTSHIELD_APPROVALS_DIR`   | `<data_dir>/approvals`                    | Approval request/grant files                          |
+| `AGENTSHIELD_PYTHON`          | `python3`                                 | Python binary for middleware                          |
+| `AGENTSHIELD_MIDDLEWARE_PATH` | `security/agentshield_middleware.py`      | Path to middleware script                             |
+| `AGENTSHIELD_AGENT_ID`        | `openclaw-agent`                          | Agent ID for receipts                                 |
+| `AGENTSHIELD_PUBLISHER_ID`    | `openclaw`                                | Publisher ID for receipts                             |
+| `AGENTSHIELD_VERSION`         | `0.0.0`                                   | Agent version for receipts                            |
 
 ## Policy profiles
 
 AgentShield ships three built-in profiles:
 
-| Profile | Network | FS writes | Denylist | Approval gates |
-|---------|---------|-----------|----------|----------------|
-| `normal` | allowed (domain allowlist) | artifacts, outputs | shell_exec, code_exec | none |
-| `strict` | denied | artifacts only | shell_exec, code_exec | filesystem_write |
-| `experimental` | allowed (no domain check) | artifacts, outputs, workspace | none | none |
+| Profile        | Network                    | FS writes                     | Denylist              | Approval gates   |
+| -------------- | -------------------------- | ----------------------------- | --------------------- | ---------------- |
+| `normal`       | allowed (domain allowlist) | artifacts, outputs            | shell_exec, code_exec | none             |
+| `strict`       | denied                     | artifacts only                | shell_exec, code_exec | filesystem_write |
+| `experimental` | allowed (no domain check)  | artifacts, outputs, workspace | none                  | none             |
 
 Change the profile:
 
