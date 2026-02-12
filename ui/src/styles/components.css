@@ -952,6 +952,22 @@
   border-color: var(--border-strong);
 }
 
+.directory-table {
+  display: grid;
+  gap: 6px;
+}
+
+.directory-table-head {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.6fr 0.8fr 1.2fr 0.8fr;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0 12px;
+}
+
 .session-link {
   text-decoration: none;
   color: var(--accent);
