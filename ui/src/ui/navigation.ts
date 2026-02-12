@@ -4,9 +4,9 @@ export const TAB_GROUPS = [
   { label: "Chat", tabs: ["chat"] },
   {
     label: "Control",
-    tabs: ["overview", "channels", "instances", "sessions", "cron"],
+    tabs: ["overview", "channels", "instances", "sessions", "usage", "cron"],
   },
-  { label: "Agent", tabs: ["agents", "skills", "nodes"] },
+  { label: "Agent", tabs: ["agents", "skills", "nodes", "directory"] },
   { label: "Settings", tabs: ["config", "debug", "logs"] },
 ] as const;
 
@@ -16,9 +16,11 @@ export type Tab =
   | "channels"
   | "instances"
   | "sessions"
+  | "usage"
   | "cron"
   | "skills"
   | "nodes"
+  | "directory"
   | "chat"
   | "config"
   | "debug"
@@ -30,9 +32,11 @@ const TAB_PATHS: Record<Tab, string> = {
   channels: "/channels",
   instances: "/instances",
   sessions: "/sessions",
+  usage: "/usage",
   cron: "/cron",
   skills: "/skills",
   nodes: "/nodes",
+  directory: "/directory",
   chat: "/chat",
   config: "/config",
   debug: "/debug",
@@ -134,12 +138,16 @@ export function iconForTab(tab: Tab): IconName {
       return "radio";
     case "sessions":
       return "fileText";
+    case "usage":
+      return "barChart";
     case "cron":
       return "loader";
     case "skills":
       return "zap";
     case "nodes":
       return "monitor";
+    case "directory":
+      return "globe";
     case "config":
       return "settings";
     case "debug":
@@ -163,12 +171,16 @@ export function titleForTab(tab: Tab) {
       return "Instances";
     case "sessions":
       return "Sessions";
+    case "usage":
+      return "Usage";
     case "cron":
       return "Cron Jobs";
     case "skills":
       return "Skills";
     case "nodes":
       return "Nodes";
+    case "directory":
+      return "Directory";
     case "chat":
       return "Chat";
     case "config":
@@ -194,12 +206,16 @@ export function subtitleForTab(tab: Tab) {
       return "Presence beacons from connected clients and nodes.";
     case "sessions":
       return "Inspect active sessions and adjust per-session defaults.";
+    case "usage":
+      return "";
     case "cron":
       return "Schedule wakeups and recurring agent runs.";
     case "skills":
       return "Manage skill availability and API key injection.";
     case "nodes":
       return "Paired devices, capabilities, and command exposure.";
+    case "directory":
+      return "Browse verified agents and their capabilities.";
     case "chat":
       return "Direct gateway chat session for quick interventions.";
     case "config":
