@@ -1,6 +1,8 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { isSafeBinUsage } from "./exec-approvals-allowlist.js";
 import { makePathEnv, makeTempDir } from "./exec-approvals-test-helpers.js";
 import {
   analyzeArgvCommand,
@@ -19,9 +21,12 @@ import {
   requiresExecApproval,
   resolveCommandResolution,
   resolveCommandResolutionFromArgv,
+  resolveExecApprovals,
+  resolveExecApprovalsFromFile,
   resolveExecApprovalsPath,
   resolveExecApprovalsSocketPath,
   type ExecAllowlistEntry,
+  type ExecApprovalsFile,
 } from "./exec-approvals.js";
 
 function buildNestedEnvShellCommand(params: {
@@ -1001,7 +1006,6 @@ describe("exec approvals node host allowlist check", () => {
       argv: ["unknown-tool", "--help"],
       resolution,
       safeBins: normalizeSafeBins(["jq", "curl"]),
-      cwd: "/tmp",
     });
     expect(safe).toBe(false);
   });
@@ -1022,7 +1026,6 @@ describe("exec approvals node host allowlist check", () => {
       argv: ["jq", ".foo"],
       resolution,
       safeBins: normalizeSafeBins(["jq"]),
-      cwd: "/tmp",
     });
     expect(safe).toBe(true);
   });
